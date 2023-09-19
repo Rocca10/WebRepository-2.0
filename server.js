@@ -5,6 +5,12 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const PassportLocal = require('passport-local').Strategy;
 const path = require("path"); //Es para poner dirname, es una libreria de node
+require('dotenv').config({path:'./.env'}); //Esto es para poder traerlo desde el env
+require('dotenv').config(); //Con esto lo puedo leer como texto plano
+
+const usuario = process.env.user; //Declaro que le voy a poner usuario a lo que traiga desde env
+const contraseña = process.env.password; //Declaro que le voy a poner contraseña a lo que traiga desde env
+
 
 //comando para ejectuarlo nodemon: npm run start
 //comando para ejecutarlo con node: node app.js (app es el nombre del archivo)
@@ -28,6 +34,9 @@ passport.use(new PassportLocal(function(username,password,done){
 
     else if(username === "fabrizio" && password === "123456")
     return done(null, {id: 2, name: "Fabri"});
+
+    else if(username === usuario && password === contraseña) //De esta manera obtengo las credenciales con el .env y no declarandolo en el array
+    return done(null, {id: 3, name: "Sergio"});
 
     done(null,false);
 }))
